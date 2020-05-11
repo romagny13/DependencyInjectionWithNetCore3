@@ -71,8 +71,8 @@ namespace WpfSample
                 return;
 
 
-            bool autoWIreViewModel = (bool)e.NewValue;
-            if (autoWIreViewModel)
+            bool autoWireViewModel = (bool)e.NewValue;
+            if (autoWireViewModel)
             {
                 var frameworkElement = d as FrameworkElement;
                 if (frameworkElement == null)
