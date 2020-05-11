@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -16,11 +18,20 @@ namespace WpfSample
         public App()
         {
             host = Host.CreateDefaultBuilder()
-                .ConfigureServices(services =>
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder.AddJsonFile("appsettings.local.json", true);
+                })
+                .ConfigureServices((context, services) =>
                 {
                     ConfigureContainer();
-                    RegisterServices(services);
-                }).Build();
+                    RegisterServices(context.Configuration, services);
+                })
+                .ConfigureLogging(logging =>
+                {
+
+                })
+                .Build();
         }
 
         private void ConfigureContainer()
@@ -28,9 +39,13 @@ namespace WpfSample
             ViewModelLocationProvider.SetViewModelFactory(type => host.Services.GetRequiredService(type));
         }
 
-        private void RegisterServices(IServiceCollection services)
+        private void RegisterServices(IConfiguration configuration, IServiceCollection services)
         {
-           // Sample
+            // Sample
+            services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+
+           // services.AddLogging(configure => configure.AddConsole());
+
             services.AddSingleton<IService, ServiceA>();
 
             services.AddSingleton<MainWindow>();
@@ -48,6 +63,10 @@ namespace WpfSample
         }
     }
 
+    public class AppSettings
+    {
+        public string MySetting { get; set; }
+    }
 
     public class ViewModelLocator
     {
