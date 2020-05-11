@@ -25,7 +25,7 @@ namespace WpfSample
 
         private void ConfigureContainer()
         {
-            ViewModelLocationProvider.SetViewModelFactory(viewType => host.Services.GetRequiredService(viewType));
+            ViewModelLocationProvider.SetViewModelFactory(type => host.Services.GetRequiredService(type));
         }
 
         private void RegisterServices(IServiceCollection services)
