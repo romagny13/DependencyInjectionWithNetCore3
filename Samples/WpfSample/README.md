@@ -63,7 +63,6 @@ Install **Microsoft.Extensions.Logging** and **Microsoft.Extensions.Logging.Debu
 host = Host.CreateDefaultBuilder()
 .ConfigureAppConfiguration((context, builder) =>
 {
-   // here
     builder.AddJsonFile("appsettings.local.json", true); 
 })
 .ConfigureServices((context, services) =>
@@ -73,6 +72,7 @@ host = Host.CreateDefaultBuilder()
 })
 .ConfigureLogging(logging =>
 {
+    // here
     logging.ClearProviders();
     logging.AddDebug();
 })
