@@ -1,34 +1,37 @@
-﻿Install NuGet Package:
-* Microsoft.Extensions.Hosting
+## NuGet Package
 
+Install **Microsoft.Extensions.Hosting**
 
-AppSettings:
+## AppSettings
 
-Create json file "appsettings.json", define as content in property window
+Create a **json file** "appsettings.json" and define this file **as content in property window**
 
-Define settings
+Define settings. Sample
 
+```xml
 {
   "AppSettings": {
     "MySetting": "My Value"
   }
 }
+```
+Create a Model
 
-
-Create AppSettings model
-
+```cs
 public class AppSettings
 {
     public string MySetting { get; set; }
 }
+```
 
+Configuration
 
-Configure settings
-
+```cs
 host = Host.CreateDefaultBuilder()
 .ConfigureAppConfiguration((context, builder) =>
 {
-    builder.AddJsonFile("appsettings.local.json", true); // <=
+   // here
+    builder.AddJsonFile("appsettings.local.json", true); 
 })
 .ConfigureServices((context, services) =>
 {
@@ -40,14 +43,10 @@ host = Host.CreateDefaultBuilder()
 
 })
 .Build();
+```
 
-+
+And 
 
+```cs
 services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
-
-
-
-Logging
-
-Install 
-* Microsoft.Extensions.Logging.Console  for example
+```
