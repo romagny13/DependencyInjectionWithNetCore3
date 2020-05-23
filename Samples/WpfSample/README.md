@@ -1,34 +1,39 @@
-﻿Install NuGet Package:
-* Microsoft.Extensions.Hosting
+﻿# Wpf Sample
 
+## NuGet Package
 
-AppSettings:
+Install **Microsoft.Extensions.Hosting**
 
-Create json file "appsettings.json", define as content in property window
+## AppSettings
 
-Define settings
+Create a **json file** "appsettings.json" and define this file **as content in property window**
 
+Sample:
+
+```xml
 {
   "AppSettings": {
     "MySetting": "My Value"
   }
 }
+```
+Create a **Model**:
 
-
-Create AppSettings model
-
+```cs
 public class AppSettings
 {
     public string MySetting { get; set; }
 }
+```
 
+**Configuration**:
 
-Configure settings
-
+```cs
 host = Host.CreateDefaultBuilder()
 .ConfigureAppConfiguration((context, builder) =>
 {
-    builder.AddJsonFile("appsettings.local.json", true); // <=
+   // here
+    builder.AddJsonFile("appsettings.local.json", true); 
 })
 .ConfigureServices((context, services) =>
 {
@@ -40,14 +45,57 @@ host = Host.CreateDefaultBuilder()
 
 })
 .Build();
+```
 
-+
+And 
 
+```cs
 services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+```
 
 
+## Logging
 
-Logging
+Install **Microsoft.Extensions.Logging** and **Microsoft.Extensions.Logging.Debug** for example
 
-Install 
-* Microsoft.Extensions.Logging.Console  for example
+
+```cs
+host = Host.CreateDefaultBuilder()
+.ConfigureAppConfiguration((context, builder) =>
+{
+   // here
+    builder.AddJsonFile("appsettings.local.json", true); 
+})
+.ConfigureServices((context, services) =>
+{
+    ConfigureContainer();
+    RegisterServices(context.Configuration, services);
+})
+.ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddDebug();
+})
+.Build();
+```
+
+Inject and use the logger
+
+```cs
+public class ServiceA : IService
+{
+    private readonly ILogger<ServiceA> logger;
+
+    public ServiceA(ILogger<ServiceA> logger)
+    {
+        this.logger = logger;
+    }
+
+    public string GetTime()
+    {
+        logger.LogInformation($"ServiceA GetTime used, Timestamp:{DateTime.Now:u}");
+
+        return DateTime.Now.ToLongTimeString();
+    }
+}
+```

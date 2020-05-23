@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.ComponentModel;
+using WpfSample.Services;
 
 namespace WpfSample.ViewModels
 {
@@ -19,7 +20,7 @@ namespace WpfSample.ViewModels
 
             this.service = service;
             this.settings = settings;
-            this.message = $"Time:'{service.GetTime()}, MySetting:'{settings.Value.MySetting}'";
+            this.message = $"Service:{service.GetTime()}, MySetting:{settings.Value.MySetting}";
         }
 
         public string Message
