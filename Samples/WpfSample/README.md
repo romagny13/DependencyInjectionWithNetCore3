@@ -8,7 +8,7 @@ Install **Microsoft.Extensions.Hosting**
 
 Create a **json file** "appsettings.json" and define this file **as content in property window**
 
-Define settings. Sample
+Sample:
 
 ```xml
 {
@@ -17,7 +17,7 @@ Define settings. Sample
   }
 }
 ```
-Create a Model
+Create a **Model**:
 
 ```cs
 public class AppSettings
@@ -26,7 +26,7 @@ public class AppSettings
 }
 ```
 
-Configuration
+**Configuration**:
 
 ```cs
 host = Host.CreateDefaultBuilder()
